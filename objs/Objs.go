@@ -13,7 +13,7 @@ type MBR struct {
 }
 
 func PrintMBR(mbr MBR) {
-	fmt.Println("-----")
+	fmt.Println(" ")
 	fmt.Println("mbr_tamano:", mbr.Mbr_tamano)
 	fmt.Println("mbr_fecha_creacion:", string(mbr.Mbr_fecha_creacion[:]))
 	fmt.Println("mbr_dsk_signature:", mbr.Mbr_dsk_signature)
@@ -21,7 +21,7 @@ func PrintMBR(mbr MBR) {
 	for i := 0; i < 4; i++ {
 		PrintPartition(mbr.Mbr_partitions[i])
 	}
-	fmt.Println("-----")
+	fmt.Println(" ")
 }
 
 type Partition struct {
@@ -45,5 +45,23 @@ func PrintPartition(part Partition) {
 	fmt.Println("part_name:", string(part.Part_name[:]))
 	fmt.Println("part_correlative:", part.Part_correlative)
 	fmt.Println("part_id:", string(part.Part_id[:]))
-	fmt.Println("-----")
+}
+
+type EBR struct {
+	Part_mount [1]byte
+	Part_fit   [1]byte
+	Part_start int32
+	Part_s     int32
+	Part_next  int32
+	Part_name  [16]byte
+}
+
+func PrintEBR(ebr EBR) {
+	fmt.Println("---EBR---")
+	fmt.Println("part_mount:", string(ebr.Part_mount[:]))
+	fmt.Println("part_fit:", string(ebr.Part_fit[:]))
+	fmt.Println("part_start:", ebr.Part_start)
+	fmt.Println("part_s:", ebr.Part_s)
+	fmt.Println("part_next:", ebr.Part_next)
+	fmt.Println("part_name:", string(ebr.Part_name[:]))
 }

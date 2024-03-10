@@ -1,0 +1,5 @@
+mkdisk -size=1 
+mkdisk -size=1 
+"fdisk -size=1 -driveletter=a -name=p1 -type=p"
+"fdisk -size=1 -driveletter=a -name=p2 -type=p"
+fdisk -size=1000 -driveletter=a -name=ext -type=e -unit=b -fit=f

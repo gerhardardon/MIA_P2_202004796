@@ -56,6 +56,19 @@ func WriteObject(file *os.File, data interface{}, position int64) error {
 	return nil
 }
 
+// Function to replace data with 0s
+func ReplaceWithZeros(file *os.File, position int64, size int) error {
+	file.Seek(position, 0)
+	for i := 0; i < size; i++ {
+		err := binary.Write(file, binary.LittleEndian, byte(0))
+		if err != nil {
+			fmt.Println("-err ReplaceWithZeros", err)
+			return err
+		}
+	}
+	return nil
+}
+
 // Function to Read an object from a bin file
 func ReadObject(file *os.File, data interface{}, position int64) error {
 	file.Seek(position, 0)
