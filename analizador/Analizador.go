@@ -63,6 +63,8 @@ func Analizar() {
 			flag.Set("unit", "k")
 			flag.Set("fit", "w")
 			cmds.ParseFdisk(line, size, driveletter, name, unit, tipe, fit, delete, add, path)
+		} else if cmd[0] == "mount" {
+			cmds.ParseMount(line, driveletter, name)
 		}
 
 	}
