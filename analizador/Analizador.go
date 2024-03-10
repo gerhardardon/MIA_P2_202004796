@@ -20,6 +20,7 @@ func Analizar() {
 	delete := flag.String("delete", "", "delete of partition")
 	add := flag.Int("add", 0, "add of partition")
 	path := flag.String("path", "", "path of file")
+	id := flag.String("id", "", "id of partition")
 	flag.Parse()
 
 	var input string
@@ -65,6 +66,8 @@ func Analizar() {
 			cmds.ParseFdisk(line, size, driveletter, name, unit, tipe, fit, delete, add, path)
 		} else if cmd[0] == "mount" {
 			cmds.ParseMount(line, driveletter, name)
+		} else if cmd[0] == "unmount" {
+			cmds.ParseUnmount(line, id)
 		}
 
 	}
