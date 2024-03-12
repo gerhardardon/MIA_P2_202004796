@@ -61,10 +61,11 @@ func Unmount(id string) {
 			//desmontamos
 			copy(tmpMbr.Mbr_partitions[i].Part_status[:], "0")
 			tmpMbr.Mbr_partitions[i].Part_id = [4]byte{}
+			tmpMbr.Mbr_partitions[i].Part_correlative = int32(0)
 			utilities.WriteObject(file, tmpMbr, 0)
 			fmt.Println("-particion desmontada")
 			return
 		}
-
 	}
+
 }

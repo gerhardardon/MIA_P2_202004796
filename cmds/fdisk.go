@@ -88,7 +88,7 @@ func Fdisk(size int, driveletter string, name string, unit string, tipe string, 
 	if err := utilities.ReadObject(file, &tmpMbr, 0); err != nil {
 		return
 	}
-	objs.PrintMBR(tmpMbr)
+	//objs.PrintMBR(tmpMbr)
 
 	//si es delete
 	if delete == "full" {
@@ -198,7 +198,7 @@ func Fdisk(size int, driveletter string, name string, unit string, tipe string, 
 					tmpMbr.Mbr_partitions[i].Part_start = gap
 				}
 				tmpMbr.Mbr_partitions[i].Part_s = int32(size)
-				tmpMbr.Mbr_partitions[i].Part_correlative = int32(count + 1)
+				tmpMbr.Mbr_partitions[i].Part_correlative = int32(0)
 				var tmpName [16]byte
 				copy(tmpMbr.Mbr_partitions[i].Part_name[:], tmpName[:])
 				copy(tmpMbr.Mbr_partitions[i].Part_name[:], name)
@@ -230,7 +230,7 @@ func Fdisk(size int, driveletter string, name string, unit string, tipe string, 
 					tmpMbr.Mbr_partitions[i].Part_start = gap
 				}
 				tmpMbr.Mbr_partitions[i].Part_s = int32(size)
-				tmpMbr.Mbr_partitions[i].Part_correlative = int32(count + 1)
+				tmpMbr.Mbr_partitions[i].Part_correlative = int32(0)
 				copy(tmpMbr.Mbr_partitions[i].Part_name[:], name)
 				copy(tmpMbr.Mbr_partitions[i].Part_fit[:], fit)
 				copy(tmpMbr.Mbr_partitions[i].Part_type[:], tipe)

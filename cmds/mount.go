@@ -46,6 +46,15 @@ func Mount(driveletter string, name string) {
 		return
 	}
 
+	//buscamos el correlativo
+	var count = 1
+	//iteramos para saber su tamaño
+	for i := 0; i < 4; i++ {
+		if tmpMbr.Mbr_partitions[i].Part_correlative != 0 {
+			count++
+		}
+	}
+
 	//buscamos particion
 	byteSlice := []byte(name)
 	var byteArray [16]byte
@@ -60,9 +69,11 @@ func Mount(driveletter string, name string) {
 			}
 
 			//modificamos valores
+			tmpMbr.Mbr_partitions[i].Part_correlative = int32(count)
 			id := driveletter + strconv.Itoa(int(tmpMbr.Mbr_partitions[i].Part_correlative)) + "96"
 			copy(tmpMbr.Mbr_partitions[i].Part_status[:], []byte("1"))
 			copy(tmpMbr.Mbr_partitions[i].Part_id[:], []byte(id)[:4])
+
 			fmt.Println("id:", id)
 
 			//escribimos mbr

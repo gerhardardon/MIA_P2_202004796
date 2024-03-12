@@ -21,7 +21,6 @@ func PrintMBR(mbr MBR) {
 	for i := 0; i < 4; i++ {
 		PrintPartition(mbr.Mbr_partitions[i])
 	}
-	fmt.Println(" ")
 }
 
 type Partition struct {
@@ -36,15 +35,14 @@ type Partition struct {
 }
 
 func PrintPartition(part Partition) {
-	fmt.Println("-----")
-	fmt.Println("part_status:", string(part.Part_status[:]))
-	fmt.Println("part_type:", string(part.Part_type[:]))
-	fmt.Println("part_fit:", string(part.Part_fit[:]))
-	fmt.Println("part_start:", part.Part_start)
-	fmt.Println("part_s:", part.Part_s)
-	fmt.Println("part_name:", string(part.Part_name[:]))
-	fmt.Println("part_correlative:", part.Part_correlative)
-	fmt.Println("part_id:", string(part.Part_id[:]))
+	fmt.Print("status:", string(part.Part_status[:]))
+	fmt.Print(" type:", string(part.Part_type[:]))
+	fmt.Print(" fit:", string(part.Part_fit[:]))
+	fmt.Print(" start:", part.Part_start)
+	fmt.Print(" s:", part.Part_s)
+	fmt.Print(" name:", string(part.Part_name[:]))
+	fmt.Print(" correlative:", part.Part_correlative)
+	fmt.Println(" id:", string(part.Part_id[:]))
 }
 
 type EBR struct {
@@ -57,11 +55,10 @@ type EBR struct {
 }
 
 func PrintEBR(ebr EBR) {
-	fmt.Println("---EBR---")
-	fmt.Println("part_mount:", string(ebr.Part_mount[:]))
-	fmt.Println("part_fit:", string(ebr.Part_fit[:]))
-	fmt.Println("part_start:", ebr.Part_start)
-	fmt.Println("part_s:", ebr.Part_s)
-	fmt.Println("part_next:", ebr.Part_next)
-	fmt.Println("part_name:", string(ebr.Part_name[:]))
+	fmt.Print("mount:", string(ebr.Part_mount[:]))
+	fmt.Print(" fit:", string(ebr.Part_fit[:]))
+	fmt.Print(" start:", ebr.Part_start)
+	fmt.Print(" size:", ebr.Part_s)
+	fmt.Print(" next:", ebr.Part_next)
+	fmt.Println(" name:", string(ebr.Part_name[:]))
 }
