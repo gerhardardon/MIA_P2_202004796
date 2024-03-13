@@ -21,6 +21,7 @@ func Analizar() {
 	add := flag.Int("add", 0, "add of partition")
 	path := flag.String("path", "", "path of file")
 	id := flag.String("id", "", "id of partition")
+	fs := flag.String("fs", "2", "file system of partition")
 	flag.Parse()
 
 	var input string
@@ -68,6 +69,9 @@ func Analizar() {
 			cmds.ParseMount(line, driveletter, name)
 		} else if cmd[0] == "unmount" {
 			cmds.ParseUnmount(line, id)
+		} else if cmd[0] == "mkfs" {
+			flag.Set("tipe", "full")
+			cmds.ParseMkfs(line, id, tipe, fs)
 		}
 
 	}

@@ -87,7 +87,7 @@ func Mount(driveletter string, name string) {
 				return
 			}
 			objs.PrintMBR(tmpMbr2)
-			fmt.Println("Particion", name, "montada")
+			fmt.Println("-particion ", name, "montada")
 			break
 		}
 
@@ -110,7 +110,7 @@ func Mount(driveletter string, name string) {
 					if err := utilities.WriteObject(file, tmpEbr, start); err != nil {
 						return
 					}
-					fmt.Println("-particion", name, "montada")
+					fmt.Println("-particion ", name, "montada")
 				}
 				start = int64(tmpEbr.Part_next)
 				if err := utilities.ReadObject(file, &tmpEbr, start); err != nil {
