@@ -22,6 +22,7 @@ func Analizar() {
 	path := flag.String("path", "", "path of file")
 	id := flag.String("id", "", "id of partition")
 	fs := flag.String("fs", "2", "file system of partition")
+	ruta := flag.String("ruta", "", "path of file")
 	flag.Parse()
 
 	var input string
@@ -75,6 +76,8 @@ func Analizar() {
 		} else if cmd[0] == "mkfs" {
 			flag.Set("tipe", "full")
 			cmds.ParseMkfs(line, id, tipe, fs)
+		} else if cmd[0] == "rep" {
+			cmds.ParseRep(line, name, path, id, ruta)
 		}
 
 	}
