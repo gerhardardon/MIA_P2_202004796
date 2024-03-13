@@ -46,6 +46,9 @@ func Analizar() {
 		line = strings.ReplaceAll(line, "'", "")
 		line = strings.ReplaceAll(line, "\"", "")
 
+		if strings.HasPrefix(line, "#") || line == "" {
+			continue
+		}
 		fmt.Println("\n[CMD]", line)
 
 		//TODO HERE!!!!!
