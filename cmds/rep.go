@@ -71,8 +71,9 @@ func ParseRep(entrada string, name *string, path *string, id *string, ruta *stri
 		RepBMInode(*id, *path)
 	case "bm_block":
 		RepBMBlock(*id, *path)
+	case "sb":
+		RepSB(*id, *path)
 	}
-
 }
 
 func RepMBR(id string, path string) {
@@ -353,6 +354,67 @@ func RepBMBlock(id string, path string) {
 				file2.WriteString("\n")
 			}
 			file2.Close()
+		}
+	}
+}
+
+func RepSB(id string, path string) {
+	name := strings.Split(path, "/")
+	file_name := name[len(name)-1]
+	file_name = strings.Split(file_name, ".")[0]
+	fmt.Println(file_name)
+
+	driveletter := id[0]
+	driveletter = byte(strings.ToUpper(string(driveletter))[0])
+	fmt.Println("driveletter:", string(driveletter))
+	//abrimos dsk
+	rutas := "./MIA/P1/" + string(driveletter) + ".dsk"
+	//fmt.Println("ruta:", ruta)
+	file, err := utilities.OpenFile(rutas)
+	if err != nil {
+		return
+	}
+	//leemos mbr
+	var tmpMbr objs.MBR
+	if err := utilities.ReadObject(file, &tmpMbr, 0); err != nil {
+		return
+	}
+	//buscamos particion
+	for i := 0; i < 4; i++ {
+		if string(tmpMbr.Mbr_partitions[i].Part_id[:]) == strings.ToUpper(id) {
+			//leemos superblock
+			var tmpSuper objs.Superblock
+			start := int64(tmpMbr.Mbr_partitions[i].Part_start)
+			if err := utilities.ReadObject(file, &tmpSuper, start); err != nil {
+				return
+			}
+			//creamos dot
+			dotContent := `
+						digraph G {
+						node [shape=plaintext]
+						node1 [label=<
+						<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0">
+						<TR><TD bgcolor="#ed5364" COLSPAN="2">Reporte Superblock</TD></TR>`
+			dotContent += "\n" + `	<TR> <TD >s_filesystem_type</TD> <TD>` + fmt.Sprint(tmpSuper.S_filesystem_type) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_inodes_count</TD> <TD>` + fmt.Sprint(tmpSuper.S_inodes_count) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_blocks_count</TD> <TD>` + fmt.Sprint(tmpSuper.S_blocks_count) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_free_blocks_count</TD> <TD>` + fmt.Sprint(tmpSuper.S_free_blocks_count) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_free_inodes_count</TD> <TD>` + fmt.Sprint(tmpSuper.S_free_inodes_count) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_mtime</TD> <TD>` + string(tmpSuper.S_mtime[:]) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_umtime</TD> <TD>` + string(tmpSuper.S_umtime[:]) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_mnt_count</TD> <TD>` + fmt.Sprint(tmpSuper.S_mnt_count) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_magic</TD> <TD>` + fmt.Sprint(tmpSuper.S_magic) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_inode_size</TD> <TD>` + fmt.Sprint(tmpSuper.S_inode_s) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_block_size</TD> <TD>` + fmt.Sprint(tmpSuper.S_block_s) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_first_ino</TD> <TD>` + fmt.Sprint(tmpSuper.S_fist_ino) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_first_blo</TD> <TD>` + fmt.Sprint(tmpSuper.S_first_blo) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_bm_inode_start</TD> <TD>` + fmt.Sprint(tmpSuper.S_bm_inode_start) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_bm_block_start</TD> <TD>` + fmt.Sprint(tmpSuper.S_bm_block_start) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_inode_start</TD> <TD>` + fmt.Sprint(tmpSuper.S_inode_start) + `</TD> </TR>`
+			dotContent += "\n" + `	<TR> <TD >s_block_start</TD> <TD>` + fmt.Sprint(tmpSuper.S_block_start) + `</TD> </TR>`
+			dotContent += `</TABLE>>]}`
+			fmt.Println(dotContent)
+			objs.PrintSuperblock(tmpSuper)
 		}
 	}
 }
