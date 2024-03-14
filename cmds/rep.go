@@ -67,6 +67,10 @@ func ParseRep(entrada string, name *string, path *string, id *string, ruta *stri
 		RepMBR(*id, *path)
 	case "disk":
 		Repdsk(*id, *path)
+	case "bm_inode":
+		RepBMInode(*id, *path)
+	case "bm_block":
+		RepBMBlock(*id, *path)
 	}
 
 }
@@ -229,7 +233,128 @@ func Repdsk(id string, path string) {
 	dotContent += `];}}`
 
 	fmt.Println(dotContent)
+}
 
+func RepBMInode(id string, path string) {
+	name := strings.Split(path, "/")
+	file_name := name[len(name)-1]
+	file_name = strings.Split(file_name, ".")[0]
+	fmt.Println(file_name)
+
+	driveletter := id[0]
+	driveletter = byte(strings.ToUpper(string(driveletter))[0])
+	fmt.Println("driveletter:", string(driveletter))
+	//abrimos dsk
+	rutas := "./MIA/P1/" + string(driveletter) + ".dsk"
+	//fmt.Println("ruta:", ruta)
+	file, err := utilities.OpenFile(rutas)
+	if err != nil {
+		return
+	}
+	//leemos mbr
+	var tmpMbr objs.MBR
+	if err := utilities.ReadObject(file, &tmpMbr, 0); err != nil {
+		return
+	}
+	//buscamos particion
+	for i := 0; i < 4; i++ {
+		if string(tmpMbr.Mbr_partitions[i].Part_id[:]) == strings.ToUpper(id) {
+			//leemos superblock
+			var tmpSuper objs.Superblock
+			start := int64(tmpMbr.Mbr_partitions[i].Part_start)
+			if err := utilities.ReadObject(file, &tmpSuper, start); err != nil {
+				return
+			}
+			//leemos bitmap de inodos
+			inodes := tmpSuper.S_inodes_count
+			bm_inodes_start := tmpSuper.S_bm_inode_start
+			fmt.Println("inodes:", inodes)
+			fmt.Println("bm_inodes_start:", bm_inodes_start)
+
+			//creamos file
+			file2, _ := os.Create("./reports/" + file_name + ".txt")
+
+			buffer := make([]byte, 20)
+			for i := 0; i < int(inodes); i = i + 20 {
+				for j := 0; j < 20; j++ {
+					if i+j >= int(inodes) {
+						break
+					}
+					var bm byte
+					if err := utilities.ReadObject(file, &bm, int64(bm_inodes_start)); err != nil {
+						return
+					}
+					bm_inodes_start++
+					buffer[j] = bm
+				}
+				fmt.Println("buffer:", buffer)
+				file2.WriteString(fmt.Sprintf("%d", buffer))
+				file2.WriteString("\n")
+			}
+			file2.Close()
+		}
+	}
+}
+
+func RepBMBlock(id string, path string) {
+	name := strings.Split(path, "/")
+	file_name := name[len(name)-1]
+	file_name = strings.Split(file_name, ".")[0]
+	fmt.Println(file_name)
+
+	driveletter := id[0]
+	driveletter = byte(strings.ToUpper(string(driveletter))[0])
+	fmt.Println("driveletter:", string(driveletter))
+	//abrimos dsk
+	rutas := "./MIA/P1/" + string(driveletter) + ".dsk"
+	//fmt.Println("ruta:", ruta)
+	file, err := utilities.OpenFile(rutas)
+	if err != nil {
+		return
+	}
+	//leemos mbr
+	var tmpMbr objs.MBR
+	if err := utilities.ReadObject(file, &tmpMbr, 0); err != nil {
+		return
+	}
+	//buscamos particion
+	for i := 0; i < 4; i++ {
+		if string(tmpMbr.Mbr_partitions[i].Part_id[:]) == strings.ToUpper(id) {
+			//leemos superblock
+			var tmpSuper objs.Superblock
+			start := int64(tmpMbr.Mbr_partitions[i].Part_start)
+			if err := utilities.ReadObject(file, &tmpSuper, start); err != nil {
+				return
+			}
+			//leemos bitmap de inodos
+			inodes := tmpSuper.S_blocks_count
+			bm_inodes_start := tmpSuper.S_bm_block_start
+			fmt.Println("blocks:", inodes)
+			fmt.Println("blocks_start:", bm_inodes_start)
+
+			//creamos file
+			file2, _ := os.Create("./reports/" + file_name + ".txt")
+
+			buffer := make([]byte, 20)
+			for i := 0; i < int(inodes); i = i + 20 {
+				for j := 0; j < 20; j++ {
+					if i+j >= int(inodes) {
+						break
+					}
+					var bm byte
+					if err := utilities.ReadObject(file, &bm, int64(bm_inodes_start)); err != nil {
+						return
+					}
+					bm_inodes_start++
+					buffer[j] = bm
+				}
+				fmt.Println("buffer:", buffer)
+				file2.WriteString(fmt.Sprintf("%d", buffer))
+				file2.WriteString("\n")
+			}
+			file2.Close()
+		}
+	}
 }
 
 func generate(dotContent string, path string) {

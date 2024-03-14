@@ -112,8 +112,8 @@ func Ext2(file *os.File, n int32, partition objs.Partition) {
 	var newSuper objs.Superblock
 
 	newSuper.S_filesystem_type = 2
-	newSuper.S_inodes_count = 0
-	newSuper.S_blocks_count = 0
+	newSuper.S_inodes_count = n
+	newSuper.S_blocks_count = 3 * n
 	newSuper.S_free_blocks_count = 3 * n
 	newSuper.S_free_inodes_count = n
 
