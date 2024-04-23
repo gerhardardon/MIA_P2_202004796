@@ -1,5 +1,10 @@
-mkdisk -size=1 
-mkdisk -size=1 
-"fdisk -size=1 -driveletter=a -name=p1 -type=p"
-"fdisk -size=1 -driveletter=a -name=p2 -type=p"
-fdisk -size=1000 -driveletter=a -name=ext -type=e -unit=b -fit=f
+#mkdisk -size=5
+#fdisk -type=P -unit=k -name=Part1 -size=1240 -driveletter=A -fit=BF    
+#mount -driveletter=A -name=Part1
+
+#mkfs -type=full -id=A196 -fs=2fs
+#login -user=root -pass=123 -id=A196
+
+#login -user=root -pass=123 -id=A196 #ERR SESION INICIADA
+logout
+login -user=root -pass=123 -id=A196

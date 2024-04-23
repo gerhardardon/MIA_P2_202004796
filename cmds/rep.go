@@ -414,7 +414,7 @@ func RepSB(id string, path string) {
 			dotContent += "\n" + `	<TR> <TD >s_block_start</TD> <TD>` + fmt.Sprint(tmpSuper.S_block_start) + `</TD> </TR>`
 			dotContent += `</TABLE>>]}`
 			fmt.Println(dotContent)
-			objs.PrintSuperblock(tmpSuper)
+			//objs.PrintSuperblock(tmpSuper)
 		}
 	}
 }

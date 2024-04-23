@@ -23,6 +23,8 @@ func Analizar() {
 	id := flag.String("id", "", "id of partition")
 	fs := flag.String("fs", "2", "file system of partition")
 	ruta := flag.String("ruta", "", "path of file")
+	user := flag.String("user", "", "user of partition")
+	pass := flag.String("pass", "", "password of partition")
 	flag.Parse()
 
 	var input string
@@ -78,6 +80,10 @@ func Analizar() {
 			cmds.ParseMkfs(line, id, tipe, fs)
 		} else if cmd[0] == "rep" {
 			cmds.ParseRep(line, name, path, id, ruta)
+		} else if cmd[0] == "login" {
+			cmds.ParseLogin(line, user, pass, id)
+		} else if cmd[0] == "logout" {
+			cmds.Logout()
 		}
 
 	}

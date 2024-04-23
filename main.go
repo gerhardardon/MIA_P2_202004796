@@ -12,6 +12,6 @@ func main() {
 		mount -name=part1 -driveletter=a
 	*/
 
-	//execute -path=/home/gerhard/Escritorio/MIA/MIA_P1_202004796/entrada.adsj
+	//execute -path=/home/gerhard/Escritorio/MIA/MIA_P2_202004796/entrada.adsj
 	Analizador.Analizar()
 }
