@@ -1,0 +1,10 @@
+mkdisk -size=5
+fdisk -type=P -unit=k -name=Part1 -size=1240 -driveletter=A -fit=BF    
+mount -driveletter=A -name=Part1
+
+mkfs -type=full -id=A196 -fs=2fs
+login -user=root -pass=123 -id=A196
+
+#login -user=root -pass=123 -id=A196 #ERR SESION INICIADA
+logout
+#login -user=root -pass=123 -id=A196
