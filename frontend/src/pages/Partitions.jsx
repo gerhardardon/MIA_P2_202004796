@@ -3,24 +3,26 @@ import "../Home.css";
 import { NavBar } from "../components/NavBar";
 import { MdContentPasteSearch } from "react-icons/md";
 import React, { useState } from "react";
-import { PiFloppyDiskDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import { PiCardsFill } from "react-icons/pi";
+import { useParams } from "react-router-dom";
 
-export default function Console() {
-  const [disks, setDisks] = useState([]);
+export default function Partitions() {
+  const [partitions, setPartitions] = useState([]);
   const navigate = useNavigate()
+  const {id} = useParams()
 
   useState(() => {
     const rawData = {
-      disks: ["A.dsk", "B.dsk", "C.dsk", "D.dsk"],
+      partitions: ["Part1","Part2"]
     };
-    setDisks(rawData.disks);
+    setPartitions(rawData.partitions);
   }, []);
 
   const onClick = (objIterable) => {
     //e.preventDefault()
     //console.log("click",objIterable)
-    navigate(`/disk/${objIterable}`)
+    navigate(`/login/${id}/${objIterable}`)
   }
 
   return (
@@ -46,13 +48,13 @@ export default function Console() {
                 Explorador de archivos
               </h1>
             </div>
-            {disks.length === 0 ? (
+            {partitions.length === 0 ? (
               <h1 className="primary-info" style={{ marginRight: "20px" }}>
-                ups! aun no hay discos disponibles
+                ups! aun no hay particiones disponibles
               </h1>
             ) : (
                 <div style={{display: "flex", flexDirection: "row" }}>
-              {disks.map((objIterable, index) => {
+              {partitions.map((objIterable, index) => {
                 return (
                   <div
                     key={index}
@@ -68,7 +70,7 @@ export default function Console() {
                   >
                     
                     <h1 className="primary-info" style={{ marginRight: "20px" } }>
-                      <PiFloppyDiskDuotone />
+                     <PiCardsFill />
                      <p1>{objIterable}</p1>
                     </h1>
                     

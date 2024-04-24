@@ -103,6 +103,37 @@
     margin: 1.5rem 0rem;
   }
 
+  .card {
+    background-color: #6a6a6a; /* Gris con opacidad */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    max-width: 300px;
+    margin: 10px auto;
+    margin-left: 5px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #ccc;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
   .custom-textarea {
     width: 900px;
     height: 250px;
