@@ -2,14 +2,12 @@ package Analizador
 
 import (
 	"MIA_P1_202004796/cmds"
-	"bufio"
 	"flag"
 	"fmt"
-	"os"
 	"strings"
 )
 
-func Analizar() {
+func Analizar(entrada string) {
 	//declaramos todas las flags para los cmds
 	unit := flag.String("unit", "m", "unit of memory")
 	fit := flag.String("fit", "f", "fit of disk")
@@ -27,7 +25,7 @@ func Analizar() {
 	pass := flag.String("pass", "", "password of partition")
 	flag.Parse()
 
-	var input string
+	/*var input string
 	fmt.Println("Enter command: ")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
@@ -42,9 +40,9 @@ func Analizar() {
 		return
 	}
 	defer file.Close()
-	scanner2 := bufio.NewScanner(file)
-	for scanner2.Scan() {
-		line := scanner2.Text()
+	scanner2 := bufio.NewScanner(file)*/
+
+	for _, line := range strings.Split(entrada, "\n") {
 		// Process each line here
 		line = strings.ReplaceAll(line, "'", "")
 		line = strings.ReplaceAll(line, "\"", "")
@@ -87,13 +85,11 @@ func Analizar() {
 		}
 
 	}
-	if err := scanner2.Err(); err != nil {
-		fmt.Println("Error reading file:", err)
-	}
 
+	flag.CommandLine = flag.NewFlagSet("", flag.ExitOnError)
 }
 
-func getCommandAndParams(input string) (string, string) {
+/*func getCommandAndParams(input string) (string, string) {
 	parts := strings.Fields(input)
 	if len(parts) > 0 {
 		command := strings.ToLower(parts[0])
@@ -101,4 +97,4 @@ func getCommandAndParams(input string) (string, string) {
 		return command, params
 	}
 	return "", input
-}
+}*/
