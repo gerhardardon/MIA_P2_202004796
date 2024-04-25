@@ -22,9 +22,9 @@ export default function AppNavigator() {
  
           <Route path="/" element={<Home/>} />
           <Route path="/console" element={<Console ip={ip}/>} />
-          <Route path="/explore" element={<Explore/>} />
-          <Route path="/disk/:id/" element={<Partitions/>} />
-          <Route path="/login/:disk/:part" element={<InitUser/>} />
+          <Route path="/explore" element={<Explore ip={ip}/>} />
+          <Route path="/disk/:id/" element={<Partitions ip={ip}/>} />
+          <Route path="/login/:disk/:part" element={<InitUser ip={ip}/>} />
       </Routes>
     </HashRouter>
   )

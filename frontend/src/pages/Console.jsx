@@ -14,6 +14,7 @@ export default function Console({ ip = "localhost" }) {
     const formData = new FormData();
     formData.append("data", text);
     console.log(text);
+    setResponse("Procesando...");
 
     fetch(`http://${ip}:3000/cmds`, {
       method: "POST",

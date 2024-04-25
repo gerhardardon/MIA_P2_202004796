@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	Analizador "MIA_P1_202004796/analizador"
 
@@ -40,12 +41,29 @@ func main() {
 	})
 
 	app.Get("/disks", func(c *fiber.Ctx) error {
+		disks := listDisks()
 
 		response := struct {
-			Message string `json:"message"`
-		}{Message: "ok"}
+			Message []string `json:"disks"`
+		}{Message: disks}
+		//fmt.Println(response)
 		return c.Status(fiber.StatusOK).JSON(response)
 	})
 
 	log.Fatal(app.Listen(":3000"))
+}
+
+func listDisks() []string {
+	files, err := os.ReadDir("./MIA/P1/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var disks []string
+	for _, file := range files {
+		disks = append(disks, file.Name())
+	}
+	if len(disks) == 0 {
+		disks = append(disks, "")
+	}
+	return disks
 }

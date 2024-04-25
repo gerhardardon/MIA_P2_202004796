@@ -6,15 +6,33 @@ import React, { useState } from "react";
 import { PiFloppyDiskDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 
-export default function Console() {
+export default function Console({ip = "localhost"}) {
   const [disks, setDisks] = useState([]);
   const navigate = useNavigate()
 
   useState(() => {
-    const rawData = {
+
+    fetch(`http://${ip}:3000/disks`, {
+      method: "GET"
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.disks != null){
+          setDisks(data.disks);
+        }
+        
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+    /*const rawData = {
       disks: ["A.dsk", "B.dsk", "C.dsk", "D.dsk"],
     };
-    setDisks(rawData.disks);
+    setDisks(rawData.disks);*/
   }, []);
 
   const onClick = (objIterable) => {
