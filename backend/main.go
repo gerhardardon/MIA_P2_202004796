@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	Analizador "MIA_P1_202004796/analizador"
@@ -29,8 +30,16 @@ func main() {
 	app.Post("/cmds", func(c *fiber.Ctx) error {
 		data := c.FormValue("data")
 
-		//fmt.Println(data)
+		fmt.Println(data)
 		Analizador.Analizar(data)
+
+		response := struct {
+			Message string `json:"message"`
+		}{Message: "ok"}
+		return c.Status(fiber.StatusOK).JSON(response)
+	})
+
+	app.Get("/disks", func(c *fiber.Ctx) error {
 
 		response := struct {
 			Message string `json:"message"`

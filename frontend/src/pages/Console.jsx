@@ -5,15 +5,40 @@ import { HiArrowRight } from "react-icons/hi2";
 import React, { useState } from "react";
 import { RiSlashCommands2 } from "react-icons/ri";
 
-export default function Console() {
+
+export default function Console({ ip = "localhost" }) {
   const [text, setText] = useState("");
+  const [response, setResponse] = useState(null);
 
   const handleClick = () => {
+    const formData = new FormData();
+    formData.append("data", text);
     console.log(text);
+
+    fetch(`http://${ip}:3000/cmds`, {
+      method: "POST",
+      body: formData,
+      
+    })
+      .then((response) => {
+        if (!response.ok) {
+          setResponse("Upss! Algo salio mal. Intentalo de nuevo.");
+        } else{
+          setResponse("Comando ejecutado correctamente.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const handleInputChange = (event) => {
     setText(event.target.value);
+    setResponse(null);
   };
 
   return (
@@ -47,9 +72,15 @@ export default function Console() {
                 onChange={handleInputChange}
               />
             </div>
+            <div>
+              
+            </div>
             <button onClick={handleClick} className="secondary-button">
               Compile <HiArrowRight />{" "}
             </button>
+            <h1 className="primary-info" style={{ marginRight: "20px" }}>
+                {response}
+              </h1>
           </div>
         </div>
       </div>
