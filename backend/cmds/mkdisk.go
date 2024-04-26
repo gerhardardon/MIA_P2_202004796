@@ -73,8 +73,9 @@ func Mkdisk(size int, fit string, unit string) {
 	file, _ := utilities.OpenFile(path)
 
 	//escribimos 0 binarios
-	for i := 0; i < size; i++ {
-		err := utilities.WriteObject(file, byte(0), int64(i))
+	arreglo := make([]byte, 1024)
+	for i := 0; i <= size/1024; i++ {
+		err := utilities.WriteObject(file, arreglo, int64(i*1024))
 		if err != nil {
 			fmt.Println("-err ", err)
 		}
