@@ -25,7 +25,13 @@ export default function Partitions({ip = "localhost"}) {
       })
       .then((data) => {
         console.log(data);
-        if (data.partitions[0] != "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"){
+        console.log(data.partitions[1].substring(0,7))
+        if (data.partitions[0]!= "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"){
+          for (let i = 0; i < data.partitions.length; i++) {
+            if (data.partitions[i] == "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"){
+              data.partitions[i] = null
+            }
+          }
           setPartitions(data.partitions);
         }
         
@@ -71,6 +77,7 @@ export default function Partitions({ip = "localhost"}) {
             ) : (
                 <div style={{display: "flex", flexDirection: "row" }}>
               {partitions.map((objIterable, index) => {
+                {if (objIterable == null){return null}}
                 return (
                   <div
                     key={index}

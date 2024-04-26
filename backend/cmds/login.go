@@ -57,12 +57,12 @@ func ParseLogin(entrada string, user *string, password *string, id *string) {
 	Login(*user, *password, *id)
 }
 
-func Login(user string, password string, id string) {
+func Login(user string, password string, id string) string {
 	fmt.Println("user: ", user, " password: ", password, " id: ", id)
 
 	if global.Usuario.Status {
 		fmt.Println("-err ya hay un usuario logueado")
-		return
+		return "-err ya hay un usuario logueado"
 	}
 
 	//obtenemos disco y particion del user
@@ -75,13 +75,13 @@ func Login(user string, password string, id string) {
 	fmt.Println("ruta:", ruta)
 	file, err := utilities.OpenFile(ruta)
 	if err != nil {
-		return
+		return ""
 	}
 
 	//leemos mbr
 	var tmpMbr objs.MBR
 	if err := utilities.ReadObject(file, &tmpMbr, 0); err != nil {
-		return
+		return ""
 	}
 	//objs.PrintMBR(tmpMbr)
 
@@ -98,14 +98,14 @@ func Login(user string, password string, id string) {
 	}
 	if index == -1 {
 		fmt.Println("-err no se encontro la particion")
-		return
+		return "-err no se encontro la particion o no está montada"
 	} else {
 		objs.PrintPartition(tmpMbr.Mbr_partitions[index])
 	}
 
 	var tmpSuperBlock objs.Superblock
 	if err := utilities.ReadObject(file, &tmpSuperBlock, int64(tmpMbr.Mbr_partitions[index].Part_start)); err != nil {
-		return
+		return ""
 	}
 	indexInode := utilities.InitSearch("/users.txt", file, tmpSuperBlock)
 	// indexInode := int32(1)
@@ -113,7 +113,7 @@ func Login(user string, password string, id string) {
 	var crrInode objs.Inode
 	// Read object from bin file
 	if err := utilities.ReadObject(file, &crrInode, int64(tmpSuperBlock.S_inode_start+indexInode*int32(binary.Size(objs.Inode{})))); err != nil {
-		return
+		return ""
 	}
 
 	// read file data
@@ -150,17 +150,21 @@ func Login(user string, password string, id string) {
 		global.Usuario.Id = id
 		global.Usuario.Status = true
 		global.Usuario.Username = user
+		return "-user logged in"
 	}
+	return "-err credenciales incorrectas"
 
 }
 
-func Logout() {
+func Logout() string {
 	if global.Usuario.Status {
 		global.Usuario.Id = ""
 		global.Usuario.Status = false
 		global.Usuario.Username = ""
 		fmt.Println("-user logged out")
+		return "-user logged out"
 	} else {
 		fmt.Println("-err no user logged in")
+		return "-err no user logged in"
 	}
 }
