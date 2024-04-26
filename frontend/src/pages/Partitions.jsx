@@ -7,16 +7,32 @@ import { useNavigate } from "react-router-dom";
 import { PiCardsFill } from "react-icons/pi";
 import { useParams } from "react-router-dom";
 
-export default function Partitions() {
+export default function Partitions({ip = "localhost"}) {
   const [partitions, setPartitions] = useState([]);
   const navigate = useNavigate()
   const {id} = useParams()
 
   useState(() => {
-    const rawData = {
-      partitions: ["Part1","Part2"]
-    };
-    setPartitions(rawData.partitions);
+    const formData = new FormData();
+    formData.append("driveletter", id[0]);
+
+    fetch(`http://${ip}:3000/partitions`, {
+      method: "POST",
+      body: formData
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.partitions[0] != "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"){
+          setPartitions(data.partitions);
+        }
+        
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }, []);
 
   const onClick = (objIterable) => {

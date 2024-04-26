@@ -20,7 +20,7 @@ export default function Console({ip = "localhost"}) {
       })
       .then((data) => {
         console.log(data);
-        if (data.disks != null){
+        if (data.disks != ""){
           setDisks(data.disks);
         }
         

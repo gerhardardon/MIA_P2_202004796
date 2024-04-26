@@ -23,6 +23,14 @@ func PrintMBR(mbr MBR) {
 	}
 }
 
+func ListPartitions(mbr MBR) []string {
+	var partitions []string
+	for i := 0; i < 4; i++ {
+		partitions = append(partitions, ReturnPartitionName(mbr.Mbr_partitions[i]))
+	}
+	return partitions
+}
+
 type Partition struct {
 	Part_status      [1]byte
 	Part_type        [1]byte
@@ -43,6 +51,10 @@ func PrintPartition(part Partition) {
 	fmt.Print(" name:", string(part.Part_name[:]))
 	fmt.Print(" correlative:", part.Part_correlative)
 	fmt.Println(" id:", string(part.Part_id[:]))
+}
+
+func ReturnPartitionName(part Partition) string {
+	return string(part.Part_name[:])
 }
 
 type EBR struct {
