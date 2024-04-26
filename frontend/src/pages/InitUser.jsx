@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 
 export default function InitUser({ip = "localhost"}) {
   const { disk, part } = useParams();
-  const [response, setResponse] = useState(null);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -35,9 +34,13 @@ export default function InitUser({ip = "localhost"}) {
       })
       .then((data) => {
         if (data.message === ""){
-          setResponse("-err la particion no esta montada o formateada");
+          alert("-err la particion no esta montada o formateada");
+        } else if (data.message === "-user logged in"){
+          alert(data.message)
+          window.location.href = `#/show/${disk}/${part}`;         
+        } else{
+          alert(data.message)
         }
-        setResponse(data.message);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -85,9 +88,6 @@ export default function InitUser({ip = "localhost"}) {
             <button onClick={handleClick} className="secondary-button">
               Ingresar <HiArrowRight />{" "}
             </button>
-            <h1 className="primary-info" style={{ marginRight: "20px" }}>
-                {response}
-              </h1>
           </div>
         </div>
       </div>

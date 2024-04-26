@@ -6,6 +6,7 @@ import Console from '../pages/Console'
 import Explore from '../pages/Explore'
 import Partitions from '../pages/Partitions'
 import InitUser from '../pages/InitUser'
+import Content from '../pages/Content'
 
 
 export default function AppNavigator() {
@@ -25,6 +26,7 @@ export default function AppNavigator() {
           <Route path="/explore" element={<Explore ip={ip}/>} />
           <Route path="/disk/:id/" element={<Partitions ip={ip}/>} />
           <Route path="/login/:disk/:part" element={<InitUser ip={ip}/>} />
+          <Route path="/show/:disk/:part" element={<Content ip={ip}/>} />
       </Routes>
     </HashRouter>
   )

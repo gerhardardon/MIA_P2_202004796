@@ -15,7 +15,7 @@ export function NavBar({ip = "localhost"}) {
       .then((data) => {
         console.log(data);
         if (data.message === "-user logged out"){
-          alert(data.message+" ¡Hasta luego!\n"+data.message);
+          alert("¡Hasta luego!\n"+data.message);
           window.location.href = "/";
         } else {
           alert("¡Ups!\n"+data.message);
