@@ -100,6 +100,23 @@ func main() {
 		return c.Status(fiber.StatusOK).JSON(response)
 	})
 
+	app.Get("/reports", func(c *fiber.Ctx) error {
+		reports := listReports()
+
+		response := struct {
+			Message []string `json:"reports"`
+		}{Message: reports}
+		//fmt.Println(response)
+		return c.Status(fiber.StatusOK).JSON(response)
+	})
+
+	app.Post("/report", func(c *fiber.Ctx) error {
+		name := c.FormValue("name")
+		report := getReport(name)
+
+		return c.SendString(report)
+	})
+
 	log.Fatal(app.Listen(":3000"))
 }
 
@@ -157,4 +174,31 @@ func searchId(name string, driveletter string) string {
 		}
 	}
 	return "nil"
+}
+
+func listReports() []string {
+	files, err := os.ReadDir("./reports/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var reps []string
+	for _, file := range files {
+		reps = append(reps, file.Name())
+	}
+	if len(reps) == 0 {
+		reps = append(reps, "")
+	}
+	return reps
+}
+
+func getReport(name string) string {
+	contenido, err := os.ReadFile("./reports/" + name)
+	if err != nil {
+		fmt.Println("Error al leer el archivo:", err)
+		return ""
+	}
+
+	// Convierte el contenido a un string
+	contenidoString := string(contenido)
+	return contenidoString
 }

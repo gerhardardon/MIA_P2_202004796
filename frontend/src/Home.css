@@ -99,7 +99,7 @@
   .primary-info {
     font-size: clamp(1rem, 3vw, 1.5rem);
     max-width: 500px;
-    color: #6a6a6a;
+    color: #3b3b3b;
     margin: 1.5rem 0rem;
   }
 

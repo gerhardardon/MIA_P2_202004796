@@ -5,9 +5,11 @@ import { MdContentPasteSearch } from "react-icons/md";
 import React, { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function InitUser({ip = "localhost"}) {
   const { disk, part } = useParams();
+  const navigate = useNavigate();
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -37,7 +39,7 @@ export default function InitUser({ip = "localhost"}) {
           alert("-err la particion no esta montada o formateada");
         } else if (data.message === "-user logged in"){
           alert(data.message)
-          window.location.href = `#/show/${disk}/${part}`;         
+          navigate(`/show/${disk}/${part}`);
         } else{
           alert(data.message)
         }

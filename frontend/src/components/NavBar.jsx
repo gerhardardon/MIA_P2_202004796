@@ -32,7 +32,7 @@ export function NavBar({ip = "localhost"}) {
         <a href="/"><FaHome/> Home</a>
         <a href="#/console">Consola</a>
         <a href="#/explore">Explorar</a>
-        <a href="/">Reportes</a>
+        <a href="#/reports">Reportes</a>
         <a style={{color: "red"}} onClick={handleLogout}>Logout <FiLogOut /></a>
       </div>
     </nav>
