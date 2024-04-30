@@ -36,8 +36,8 @@ mount -driveletter=C -name=Part26 #C196 -> id3 -> cambiar el 193a por el ID que 
 
 #REPORTES 1---------------------------------------------------
 #DISCO 1
-rep -id=A196 -Path=reporte2. -name=disk #-> id1
-rep -id=A196 -Path=reporte3. -name=mbr #-> id1
+rep -id=A196 -Path=reporte2.jpg -name=disk #-> id1
+rep -id=A196 -Path=reporte3.jpg -name=mbr #-> id1
 
 #DISCO 3
 rep -id=C196 -Path=reporte8.jpg -name=disk #-> id3

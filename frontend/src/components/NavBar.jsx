@@ -2,7 +2,7 @@ import { FaHome } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import React, { useState } from "react";
 
-export function NavBar({ip = "localhost"}) {
+export function NavBar({ip = "52.90.232.68"}) {
   
   const handleLogout = () => {
     console.log(ip);
